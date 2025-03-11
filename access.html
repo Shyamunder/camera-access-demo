@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Camera and Device Info Access</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    video { width: 100%; max-width: 400px; margin-top: 20px; }
+    button { padding: 10px 20px; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h2>Access Your Camera and Device Info</h2>
+  <button id="accessBtn">Allow Access</button>
+  <video id="video" autoplay playsinline></video>
+  <div id="deviceInfo" style="margin-top: 20px;"></div>
+
+  <script>
+    const accessBtn = document.getElementById('accessBtn');
+    const video = document.getElementById('video');
+    const deviceInfo = document.getElementById('deviceInfo');
+
+    accessBtn.addEventListener('click', async () => {
+      // Camera Access
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+        video.srcObject = stream;
+        console.log('Camera access granted.');
+
+        // Device Info
+        const info = `
+          <p><strong>Platform:</strong> ${navigator.platform}</p>
+          <p><strong>User-Agent:</strong> ${navigator.userAgent}</p>
+          <p><strong>Language:</strong> ${navigator.language}</p>
+        `;
+        deviceInfo.innerHTML = info;
+
+      } catch (error) {
+        console.error('Access denied or error:', error);
+        alert('Camera access denied or not available.');
+      }
+    });
+  </script>
+</body>
+</html>
